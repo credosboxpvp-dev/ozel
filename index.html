@@ -2,49 +2,62 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>Firma Adı | Kurumsal Web Sitesi</title>
+  <title>Ad Soyad | Kişisel Web Sitesi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.6;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f5f6fa;
       color: #333;
     }
     header {
-      background: #0a3d62;
+      background: linear-gradient(120deg, #2f3640, #353b48);
       color: #fff;
-      padding: 40px 20px;
+      padding: 60px 20px;
       text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 36px;
+    }
+    header p {
+      margin-top: 10px;
+      font-size: 18px;
+      opacity: 0.9;
     }
     nav {
-      background: #1e3799;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       padding: 10px;
       text-align: center;
+      position: sticky;
+      top: 0;
     }
     nav a {
-      color: #fff;
-      margin: 0 10px;
+      margin: 0 12px;
+      color: #2f3640;
       text-decoration: none;
-      font-weight: bold;
+      font-weight: 600;
     }
     section {
-      padding: 40px 20px;
       max-width: 1000px;
       margin: auto;
+      padding: 60px 20px;
     }
-    .services {
+    .cards {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
     }
-    .box {
-      border: 1px solid #ddd;
+    .card {
+      background: #fff;
       padding: 20px;
-      border-radius: 6px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
     footer {
-      background: #0a3d62;
+      background: #2f3640;
       color: #fff;
       text-align: center;
       padding: 20px;
@@ -54,52 +67,51 @@
 <body>
 
 <header>
-  <h1>Firma Adı</h1>
-  <p>Güvenilir • Profesyonel • Çözüm Odaklı</p>
+  <h1>Ad Soyad</h1>
+  <p>Web Geliştirici • Tasarımcı • Freelancer</p>
 </header>
 
 <nav>
-  <a href="#hakkimizda">Hakkımızda</a>
-  <a href="#hizmetler">Hizmetler</a>
+  <a href="#hakkimda">Hakkımda</a>
+  <a href="#projeler">Projeler</a>
   <a href="#iletisim">İletişim</a>
 </nav>
 
-<section id="hakkimizda">
-  <h2>Hakkımızda</h2>
+<section id="hakkimda">
+  <h2>Hakkımda</h2>
   <p>
-    Firma Adı olarak yılların verdiği tecrübe ile müşterilerimize kaliteli
-    ve sürdürülebilir çözümler sunuyoruz. Önceliğimiz müşteri memnuniyetidir.
+    Merhaba! Ben Yunus Yıldırım. Modern ve kullanıcı dostu web siteleri
+    geliştiriyorum. Amacım sade, hızlı ve etkili çözümler üretmek.
   </p>
 </section>
 
-<section id="hizmetler">
-  <h2>Hizmetlerimiz</h2>
-  <div class="services">
-    <div class="box">
-      <h3>Hizmet 1</h3>
-      <p>firmasitesidegiliz.</p>
+<section id="projeler">
+  <h2>Projeler</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>Proje 1</h3>
+      <p>Proje hakkında kısa açıklama.</p>
     </div>
-    <div class="box">
-      <h3>Hizmet 2</h3>
-      <p>firmasitesidegiliz
-        .</p>
+    <div class="card">
+      <h3>Proje 2</h3>
+      <p>Proje hakkında kısa açıklama.</p>
     </div>
-    <div class="box">
-      <h3>Hizmet 3</h3>
-      <p>Kısa hizmet açıklaması buraya yazılır.</p>
+    <div class="card">
+      <h3>Proje 3</h3>
+      <p>Proje hakkında kısa açıklama.</p>
     </div>
   </div>
 </section>
 
 <section id="iletisim">
   <h2>İletişim</h2>
-  <p><strong>Adres:</strong> İstanbul / Türkiye</p>
-  <p><strong>Telefon:</strong> 0555 555 55 55</p>
-  <p><strong>E-posta:</strong> info@firmaadi.com</p>
+  <p><strong>E-posta:</strong> mail@ornek.com</p>
+  <p><strong>LinkedIn:</strong> linkedin.com/in/kullaniciadi</p>
+  <p><strong>GitHub:</strong> github.com/kullaniciadi</p>
 </section>
 
 <footer>
-  <p>© 2026 Firma Adı | Tüm Hakları Saklıdır</p>
+  <p>© 2026 Ad Soyad</p>
 </footer>
 
 </body>
