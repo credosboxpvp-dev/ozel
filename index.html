@@ -2,135 +2,145 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Konacore Games | FPS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KONACORE GAMES | FPS PRO</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body, html { height: 100%; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
-
-        /* Arka Plan: Koyu Kırmızı Gradyan */
-        body {
-            background: radial-gradient(circle, #4a0000 0%, #000000 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        /* GENEL TASARIM */
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        body, html { 
+            height: 100%; 
+            overflow: hidden; 
+            background: #000; 
+            font-family: 'Arial Black', sans-serif; 
         }
 
-        /* Ana Giriş Ekranı */
-        #main-menu {
-            text-align: center;
-            z-index: 10;
-            transition: 0.5s;
+        /* GİRİŞ EKRANI */
+        #menu {
+            position: fixed; width: 100%; height: 100%;
+            background: radial-gradient(circle, #900 0%, #000 100%);
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; z-index: 999; cursor: default;
         }
-
-        .logo {
-            font-size: 80px;
-            font-weight: 900;
-            color: #ff0000;
-            text-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
-            margin-bottom: 10px;
-            letter-spacing: -5px;
+        .logo { 
+            font-size: 80px; color: #fff; text-shadow: 0 0 30px #f00; 
+            letter-spacing: -5px; margin-bottom: 20px;
         }
-
-        .sub-text {
-            color: white;
-            letter-spacing: 5px;
-            margin-bottom: 40px;
-            opacity: 0.7;
-        }
-
         .play-btn {
-            padding: 15px 50px;
-            font-size: 20px;
-            background: transparent;
-            color: white;
-            border: 2px solid #ff0000;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
+            padding: 20px 60px; font-size: 24px; background: #ff0000;
+            color: white; border: none; border-radius: 50px;
+            box-shadow: 0 0 20px #f00; transition: 0.3s; cursor: pointer;
+        }
+        .play-btn:hover { transform: scale(1.1); box-shadow: 0 0 50px #f00; }
+
+        /* OYUN ALANI */
+        #game-stage {
+            display: none; width: 100%; height: 100%;
+            background: #1a1a1a; position: relative;
+            overflow: hidden;
         }
 
-        .play-btn:hover {
-            background: #ff0000;
-            box-shadow: 0 0 30px #ff0000;
-            transform: scale(1.1);
-        }
-
-        /* Oyun Ekranı (Başta Gizli) */
-        #game-screen {
-            display: none;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1920&q=80') center/cover;
-            cursor: crosshair;
-        }
-
-        /* FPS Nişangah */
-        .crosshair {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #00ff00;
-            border-radius: 50%;
+        /* NİŞANGAH */
+        #crosshair {
+            position: absolute; width: 30px; height: 30px;
+            border: 2px solid #0f0; border-radius: 50%;
+            pointer-events: none; z-index: 1000;
             transform: translate(-50%, -50%);
-            pointer-events: none;
+        }
+        #crosshair::after {
+            content: ''; position: absolute; top: 50%; left: 50%;
+            width: 4px; height: 4px; background: #0f0; transform: translate(-50%, -50%);
         }
 
-        /* Silah (Sağ Alt) */
-        .gun {
-            position: absolute;
-            bottom: -20px;
-            right: 10%;
-            width: 400px;
-            transform: rotate(-5deg);
-            filter: drop-shadow(0 0 10px red);
+        /* SİLAH VE ATEŞ */
+        #gun-container {
+            position: absolute; bottom: -50px; right: 10%;
+            width: 500px; pointer-events: none; z-index: 100;
+            transition: transform 0.05s;
+        }
+        #gun { width: 100%; filter: drop-shadow(0 0 10px #f00); }
+        
+        #flash {
+            position: absolute; top: -100px; left: 0; width: 150px;
+            display: none; mix-blend-mode: screen;
         }
 
+        /* MERMİ DELİĞİ */
+        .hole {
+            position: absolute; width: 12px; height: 12px;
+            background: #222; border-radius: 50%; border: 1px solid #444;
+            box-shadow: inset 0 0 5px #000; pointer-events: none;
+        }
+
+        /* HUD */
         .hud {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            color: #00ff00;
-            font-family: monospace;
-            font-size: 24px;
-            text-shadow: 0 0 5px black;
+            position: absolute; bottom: 30px; left: 30px;
+            color: #ff0000; font-size: 30px; text-shadow: 2px 2px #000;
         }
     </style>
 </head>
-<body>
+<body onmousemove="moveCrosshair(event)">
 
-    <div id="main-menu">
-        <div class="logo">KONACORE</div>
-        <p class="sub-text">GAMES</p>
+    <div id="menu">
+        <h1 class="logo">KONACORE</h1>
         <button class="play-btn" onclick="startGame()">PLAY NOW</button>
     </div>
 
-    <div id="game-screen">
-        <div class="crosshair"></div>
-        <div class="hud">HP: 100 | AMMO: 30/90</div>
-        <img src="https://i.imgur.com/6S65x7p.png" class="gun" alt="gun">
+    <div id="game-stage" onmousedown="fire(event)">
+        <div id="crosshair"></div>
+        
+        <div class="hud">AMMO: <span id="ammo-count">30</span></div>
+
+        <div id="gun-container">
+            <img id="flash" src="https://i.imgur.com/fA7mD8G.png" alt="flash">
+            <img id="gun" src="https://i.imgur.com/6S65x7p.png" alt="gun">
+        </div>
     </div>
 
     <script>
-        function startGame() {
-            document.getElementById('main-menu').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('main-menu').style.display = 'none';
-                document.getElementById('game-screen').style.display = 'block';
-            }, 500);
+        const crosshair = document.getElementById('crosshair');
+        const gunCon = document.getElementById('gun-container');
+        const flash = document.getElementById('flash');
+        const ammoText = document.getElementById('ammo-count');
+        let ammo = 30;
+
+        function moveCrosshair(e) {
+            crosshair.style.left = e.pageX + 'px';
+            crosshair.style.top = e.pageY + 'px';
+            // Silahın hafifçe fareyi takip etmesi
+            gunCon.style.transform = `translateX(${(e.pageX - window.innerWidth/2) / 20}px)`;
         }
 
-        // Ateş etme efekti (tıklayınca)
-        document.getElementById('game-screen').addEventListener('mousedown', () => {
-            const gun = document.querySelector('.gun');
-            gun.style.transform = 'translateY(20px) rotate(-5deg)';
+        function startGame() {
+            document.getElementById('menu').style.display = 'none';
+            document.getElementById('game-stage').style.display = 'block';
+        }
+
+        function fire(e) {
+            if (ammo <= 0) {
+                alert("Mermi Bitti! KONACORE Gururla Sundu.");
+                return;
+            }
+
+            ammo--;
+            ammoText.innerText = ammo;
+
+            // Silah Tepmesi
+            gunCon.style.transform += ' translateY(40px) scale(1.1)';
+            flash.style.display = 'block';
+
+            // Mermi Deliği Oluştur
+            const hole = document.createElement('div');
+            hole.className = 'hole';
+            hole.style.left = (e.pageX - 6) + 'px';
+            hole.style.top = (e.pageY - 6) + 'px';
+            document.getElementById('game-stage').appendChild(hole);
+
+            // Efektleri Sıfırla
             setTimeout(() => {
-                gun.style.transform = 'translateY(0) rotate(-5deg)';
+                flash.style.display = 'none';
+                gunCon.style.transform = gunCon.style.transform.replace(' translateY(40px) scale(1.1)', '');
             }, 50);
-        });
+        }
     </script>
 </body>
 </html>
