@@ -2,225 +2,171 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KONACORE GAMES | HEDEF VURMA</title>
+    <title>KONACORE | ULTIMATE FPS</title>
     <style>
-        /* GENEL TASARIM */
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        body, html { 
-            height: 100%; 
-            overflow: hidden; 
-            background: #000; 
-            font-family: 'Arial Black', sans-serif; 
-        }
+        body, html { height: 100%; overflow: hidden; background: #050000; font-family: 'Orbitron', sans-serif; }
 
-        /* GİRİŞ EKRANI */
-        #menu {
-            position: fixed; width: 100%; height: 100%;
-            background: radial-gradient(circle, #900 0%, #000 100%);
-            display: flex; flex-direction: column; align-items: center;
-            justify-content: center; z-index: 999; cursor: default;
-        }
-        .logo { 
-            font-size: 80px; color: #fff; text-shadow: 0 0 30px #f00; 
-            letter-spacing: -5px; margin-bottom: 20px;
-        }
-        .play-btn {
-            padding: 20px 60px; font-size: 24px; background: #ff0000;
-            color: white; border: none; border-radius: 50px;
-            box-shadow: 0 0 20px #f00; transition: 0.3s; cursor: pointer;
-        }
-        .play-btn:hover { transform: scale(1.1); box-shadow: 0 0 50px #f00; }
-
-        /* OYUN ALANI */
+        /* GÖRSELDEKİ GİBİ SİBER ARKA PLAN */
         #game-stage {
-            display: none; width: 100%; height: 100%;
-            background: url('https://images.unsplash.com/photo-1519782800346-68194098939c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8ZGFyayBnYW1lIHJvb20sIG5lb24sbGlnaHRzLGZ1dHVyZSxwYW5lbHMsdGVjaHx8fHx8fDE3MDY4NzgwMjI&ixlib=rb-4.0.3&q=80&w=1920') center center / cover no-repeat;
-            position: relative; overflow: hidden;
+            display: block; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, #200000 0%, #000 100%);
+            position: relative;
         }
 
-        /* NİŞANGAH */
+        /* NİŞANGAH (YEŞİL NEON) */
         #crosshair {
-            position: absolute; width: 30px; height: 30px;
+            position: absolute; width: 40px; height: 40px;
             border: 2px solid #0f0; border-radius: 50%;
-            pointer-events: none; z-index: 1000;
-            transform: translate(-50%, -50%);
+            pointer-events: none; z-index: 1000; transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px #0f0;
         }
-        #crosshair::after {
-            content: ''; position: absolute; top: 50%; left: 50%;
-            width: 4px; height: 4px; background: #0f0; transform: translate(-50%, -50%);
+        #crosshair::before, #crosshair::after {
+            content: ''; position: absolute; background: #0f0;
         }
+        #crosshair::before { width: 100%; height: 2px; top: 50%; left: 0; transform: translateY(-50%); }
+        #crosshair::after { height: 100%; width: 2px; left: 50%; top: 0; transform: translateX(-50%); }
 
-        /* SİLAH VE ATEŞ */
+        /* SİLAH (KIRMIZI ÇİZGİSEL TASARIM) */
         #gun-container {
-            position: absolute; bottom: -50px; right: 10%;
-            width: 500px; pointer-events: none; z-index: 100;
-            transition: transform 0.05s;
+            position: absolute; bottom: -20px; right: 5%;
+            width: 600px; pointer-events: none; z-index: 500;
         }
-        #gun { width: 100%; filter: drop-shadow(0 0 10px #f00); }
-        
+        #gun { 
+            width: 100%; 
+            filter: drop-shadow(0 0 20px #ff0000) hue-rotate(340deg); 
+            transform: scaleX(-1); /* Silahı sağa yasla */
+        }
+
+        /* ATEŞ EFEKTİ */
         #flash {
-            position: absolute; top: -100px; left: 0; width: 150px;
-            display: none; mix-blend-mode: screen;
+            position: absolute; top: 10%; left: 10%; width: 200px;
+            display: none; filter: brightness(2) contrast(1.5);
         }
 
-        /* MERMİ DELİĞİ */
-        .hole {
-            position: absolute; width: 12px; height: 12px;
-            background: #222; border-radius: 50%; border: 1px solid #444;
-            box-shadow: inset 0 0 5px #000; pointer-events: none;
-        }
-
-        /* HEDEF */
+        /* HEDEFLER (KIRMIZI HALKALAR) */
         .target {
-            position: absolute; width: 80px; height: 80px;
-            background: url('https://i.imgur.com/rQ0D57W.png') center center / cover no-repeat; /* Hedef görseli */
-            border-radius: 50%;
-            cursor: pointer; /* Hedef üzerine gelince el işareti */
-            z-index: 50;
-            transition: opacity 0.2s, transform 0.2s;
+            position: absolute; width: 60px; height: 60px;
+            border: 4px double #ff0000; border-radius: 50%;
+            box-shadow: 0 0 20px #f00, inset 0 0 15px #f00;
+            z-index: 100; animation: pulse 1s infinite;
         }
-        .target.hit { /* Vurulduğunda efekti */
-            opacity: 0;
-            transform: scale(0.5);
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
         }
 
-        /* HUD */
-        .hud {
-            position: absolute; bottom: 30px; left: 30px;
-            color: #ff0000; font-size: 30px; text-shadow: 2px 2px #000;
+        /* MERMİ İZİ (SİYAH DELİK) */
+        .bullet-hole {
+            position: absolute; width: 10px; height: 10px;
+            background: #111; border-radius: 50%; border: 1px solid #333;
+            box-shadow: 0 0 5px #000; z-index: 50; pointer-events: none;
         }
-        #score {
-            position: absolute; top: 30px; right: 30px;
-            color: #0f0; font-size: 30px; text-shadow: 2px 2px #000;
-        }
-        #reload-msg { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: red; font-size: 50px; text-shadow: 0 0 20px black; }
+
+        /* ARAYÜZ (HUD) */
+        .hud-top { position: absolute; top: 20px; width: 100%; display: flex; justify-content: space-between; padding: 0 50px; color: #ff0000; font-size: 20px; text-shadow: 0 0 10px #f00; }
+        .hud-bottom { position: absolute; bottom: 30px; left: 50px; color: #ff0000; font-size: 35px; }
+        #reload-warn { display: none; position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); color: #fff; background: #ff0000; padding: 10px 20px; font-weight: bold; animation: blink 0.5s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } }
     </style>
 </head>
-<body onmousemove="moveCrosshair(event)" onkeydown="checkKey(event)">
+<body onmousemove="update(event)" onmousedown="shoot(event)" onkeydown="reload(event)">
 
-    <div id="menu">
-        <h1 class="logo">KONACORE</h1>
-        <button class="play-btn" onclick="startGame()">PLAY NOW</button>
-    </div>
-
-    <div id="game-stage" onmousedown="fire(event)">
+    <div id="game-stage">
         <div id="crosshair"></div>
+        <div id="reload-warn">LOW AMMO - PRESS 'R'</div>
         
-        <div class="hud">AMMO: <span id="ammo-count">30</span> / 30</div>
-        <div id="score">SCORE: <span id="score-count">0</span></div>
-        <div id="reload-msg">PRESS 'R' TO RELOAD</div>
+        <div class="hud-top">
+            <div>KONACORE OS v2.0</div>
+            <div>SCORE: <span id="score">0</span></div>
+            <div>STABLE CONNECTION</div>
+        </div>
+
+        <div class="hud-bottom">
+            AMMO: <span id="ammo">30</span> / 30
+        </div>
 
         <div id="gun-container">
-            <img id="flash" src="https://i.imgur.com/fA7mD8G.png" alt="flash">
-            <img id="gun" src="https://i.imgur.com/6S65x7p.png" alt="gun">
+            <img id="flash" src="https://i.imgur.com/fA7mD8G.png">
+            <img id="gun" src="https://i.imgur.com/6S65x7p.png">
         </div>
     </div>
 
     <script>
-        const crosshair = document.getElementById('crosshair');
-        const gunCon = document.getElementById('gun-container');
-        const flash = document.getElementById('flash');
-        const ammoText = document.getElementById('ammo-count');
-        const scoreText = document.getElementById('score-count');
-        const reloadMsg = document.getElementById('reload-msg');
-
-        let ammo = 30;
         let score = 0;
-        let maxTargets = 3; // Aynı anda ekranda olabilecek maksimum hedef sayısı
-        let targetInterval;
+        let ammo = 30;
+        const gun = document.getElementById('gun-container');
+        const flash = document.getElementById('flash');
 
-        const GAME_WIDTH = window.innerWidth;
-        const GAME_HEIGHT = window.innerHeight;
-
-        // Nişangahı hareket ettir
-        function moveCrosshair(e) {
-            crosshair.style.left = e.pageX + 'px';
-            crosshair.style.top = e.pageY + 'px';
-            gunCon.style.transform = `translateX(${(e.pageX - GAME_WIDTH / 2) / 20}px)`;
+        // Mouse takibi
+        function update(e) {
+            document.getElementById('crosshair').style.left = e.pageX + 'px';
+            document.getElementById('crosshair').style.top = e.pageY + 'px';
+            // Silahın mouse'u takip etmesi (Hafif eğim)
+            let moveX = (e.pageX - window.innerWidth/2) / 25;
+            let moveY = (e.pageY - window.innerHeight/2) / 25;
+            gun.style.transform = `translate(${moveX}px, ${moveY}px)`;
         }
 
-        // Oyunu başlat
-        function startGame() {
-            document.getElementById('menu').style.display = 'none';
-            document.getElementById('game-stage').style.display = 'block';
-            spawnTarget(); // İlk hedefi oluştur
-            targetInterval = setInterval(spawnTarget, 2000); // Her 2 saniyede bir yeni hedef oluştur
-        }
-
-        // Ateş etme fonksiyonu
-        function fire(e) {
-            if (ammo <= 0) {
-                reloadMsg.style.display = 'block';
-                return;
-            }
-
+        // Ateş etme
+        function shoot(e) {
+            if(ammo <= 0) return;
+            
             ammo--;
-            ammoText.innerText = ammo;
+            document.getElementById('ammo').innerText = ammo;
+            if(ammo < 5) document.getElementById('reload-warn').style.display = 'block';
 
-            gunCon.style.transform += ' translateY(40px) scale(1.1)';
+            // Geri tepme ve ateş efekti
             flash.style.display = 'block';
-
-            // Mermi Deliği Oluştur
-            const hole = document.createElement('div');
-            hole.className = 'hole';
-            hole.style.left = (e.pageX - 6) + 'px';
-            hole.style.top = (e.pageY - 6) + 'px';
+            gun.style.transition = 'none';
+            gun.style.bottom = '-60px';
+            
+            // Mermi deliği
+            let hole = document.createElement('div');
+            hole.className = 'bullet-hole';
+            hole.style.left = e.pageX - 5 + 'px';
+            hole.style.top = e.pageY - 5 + 'px';
             document.getElementById('game-stage').appendChild(hole);
 
-            // Tıklanan yer hedef mi kontrol et
-            const target = e.target;
-            if (target.classList.contains('target')) {
-                target.classList.add('hit'); // Vuruldu efekti
-                setTimeout(() => target.remove(), 200); // Kısa süre sonra kaldır
-                score++;
-                scoreText.innerText = score;
-                spawnTarget(); // Vurulan hedefin yerine yenisini oluştur
+            // Hedef kontrol
+            if(e.target.classList.contains('target')) {
+                e.target.remove();
+                score += 100;
+                document.getElementById('score').innerText = score;
+                spawnTarget();
             }
 
-            // Efektleri Sıfırla
             setTimeout(() => {
                 flash.style.display = 'none';
-                gunCon.style.transform = gunCon.style.transform.replace(' translateY(40px) scale(1.1)', '');
+                gun.style.transition = '0.1s';
+                gun.style.bottom = '-20px';
             }, 50);
         }
 
-        // R Tuşu ile Şarjör Doldurma
-        function checkKey(e) {
-            if (e.keyCode === 82 || e.key === 'r' || e.key === 'R') {
-                if (ammo < 30) { // Sadece mermi azaldığında doldur
-                    ammo = 30;
-                    ammoText.innerText = ammo;
-                    reloadMsg.style.display = 'none';
-                    
-                    // Reload efekti
-                    gunCon.style.transition = '0.5s';
-                    gunCon.style.transform = 'translateY(200px)';
-                    setTimeout(() => {
-                        gunCon.style.transform = 'translateY(0)';
-                        setTimeout(() => { gunCon.style.transition = '0.05s'; }, 500);
-                    }, 500);
-                }
+        // Şarjör değiştirme
+        function reload(e) {
+            if(e.key.toLowerCase() === 'r') {
+                ammo = 30;
+                document.getElementById('ammo').innerText = ammo;
+                document.getElementById('reload-warn').style.display = 'none';
+                gun.style.transform = 'translateY(300px)';
+                setTimeout(() => { gun.style.transform = 'translateY(0)'; }, 400);
             }
         }
 
-        // Hedef oluşturma fonksiyonu
+        // Hedef oluşturma
         function spawnTarget() {
-            const currentTargets = document.querySelectorAll('.target').length;
-            if (currentTargets >= maxTargets) return; // Maksimum hedef sayısına ulaşıldıysa yeni hedef oluşturma
-
-            const target = document.createElement('div');
-            target.className = 'target';
-            
-            // Rastgele konum belirle (HUD ve silahın üzerine gelmesin diye)
-            let randomX = Math.random() * (GAME_WIDTH - 150) + 50; // Kenarlardan 50px boşluk
-            let randomY = Math.random() * (GAME_HEIGHT - 250) + 50; // Üstten 50, alttan 200px boşluk (silah için)
-
-            target.style.left = randomX + 'px';
-            target.style.top = randomY + 'px';
-            
-            document.getElementById('game-stage').appendChild(target);
+            let t = document.createElement('div');
+            t.className = 'target';
+            t.style.left = Math.random() * (window.innerWidth - 100) + 50 + 'px';
+            t.style.top = Math.random() * (window.innerHeight - 200) + 50 + 'px';
+            document.getElementById('game-stage').appendChild(t);
         }
+
+        // Başlangıç hedefleri
+        for(let i=0; i<3; i++) spawnTarget();
+
     </script>
 </body>
 </html>
