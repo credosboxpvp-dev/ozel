@@ -2,55 +2,70 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>Konacore</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konacore | Python Developer</title>
     <style>
         body {
-            background-color: #0f172a; /* Gece mavisi/siyah arka plan */
+            background: radial-gradient(circle, #1a1a2e 0%, #0f0f1a 100%);
             color: white;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Courier New', Courier, monospace; /* Yazılımcı teması için */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
         }
-        .container {
+        .card {
             text-align: center;
+            border: 1px solid #333;
+            padding: 50px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
         }
         h1 {
-            font-size: 4rem;
-            letter-spacing: 5px;
-            margin-bottom: 0;
-            color: #38bdf8; /* Python mavisi tonunda */
+            font-size: 3.5rem;
+            margin: 0;
+            letter-spacing: 8px;
+            color: #ffcc00; /* Dikkat çekici sarı */
         }
-        p {
-            font-size: 1.5rem;
-            opacity: 0.8;
+        .info {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            color: #bdc3c7;
         }
-        .btn {
-            margin-top: 20px;
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            background-color: #3776ab; /* Python resmi rengi */
-            border: none;
-            border-radius: 50px;
-            color: white;
+        .role {
+            font-size: 1.4rem;
+            margin: 20px 0;
+            color: #4facfe; /* Python mavisi tonu */
+            font-weight: bold;
+        }
+        .btn-info {
+            background: transparent;
+            border: 2px solid #4facfe;
+            color: #4facfe;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 5px;
             cursor: pointer;
             transition: 0.3s;
+            text-transform: uppercase;
         }
-        .btn:hover {
-            background-color: #ffd343; /* Python sarısı */
-            color: #0f172a;
-            transform: scale(1.1);
+        .btn-info:hover {
+            background: #4facfe;
+            color: #1a1a2e;
+            box-shadow: 0 0 20px rgba(79, 172, 254, 0.5);
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="card">
         <h1>KONACORE</h1>
-        <p>Yaş: 9</p>
-        <button class="btn">Kısaca Python Developer</button>
+        <p class="info">Yaş: 9</p>
+        <p class="role">Kısaca Python Developer</p>
+        <button class="btn-info">Bilgilendirme</button>
     </div>
 
 </body>
