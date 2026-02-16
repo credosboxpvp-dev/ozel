@@ -1,97 +1,27 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Konacore | Dev</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesaj</title>
     <style>
         body {
-            background-color: #0d1117;
-            color: white;
-            font-family: 'Segoe UI', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .main-card {
-            text-align: center;
-        }
-        h1 { font-size: 3.5rem; letter-spacing: 5px; color: #58a6ff; }
-        p { font-size: 1.5rem; opacity: 0.7; }
-        
-        /* Buton Stili */
-        .info-btn {
-            background-color: #238636;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        /* Açılan Kare (Modal) */
-        .modal {
-            display: none; /* Başlangıçta gizli */
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            background-color: #161b22;
-            border: 3px solid #58a6ff;
-            box-shadow: 0 0 20px rgba(88, 166, 255, 0.5);
-            display: none; /* JS ile açılacak */
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            border-radius: 20px;
-            z-index: 10;
-        }
-
-        .modal-content {
-            font-size: 1.5rem;
-            color: #7ee787;
-            padding: 20px;
-        }
-
-        /* Kapatma çarpısı */
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            cursor: pointer;
-            font-size: 20px;
-            color: #ff7b72;
+            background-color: black; /* Arka planı siyah yapar */
+            display: flex; /* İçeriği ortalamak için Flexbox kullanır */
+            justify-content: center; /* Yatayda ortalar */
+            align-items: center; /* Dikeyde ortalar */
+            height: 100vh; /* Ekranın tamamını kaplar */
+            margin: 0; /* Sayfadaki varsayılan boşlukları kaldırır */
+            font-family: Arial, sans-serif; /* Yazı tipini ayarlar */
+            color: white; /* Metin rengini beyaz yapar */
+            font-size: 3em; /* Metin boyutunu büyütür */
+            text-align: center; /* Metni ortalar */
         }
     </style>
 </head>
 <body>
-
-    <div class="main-card">
-        <h1>KONACORE</h1>
-        <p>Yaş: 9</p>
-        <button class="info-btn" onclick="ac()">Bilgilendirme</button>
+    <div>
+        I fucked you baby
     </div>
-
-    <div id="bilgiKaresi" class="modal" style="display: none;">
-        <span class="close-btn" onclick="kapat()">×</span>
-        <div class="modal-content">
-            Kısaca Python Developer Yazılımcı
-        </div>
-    </div>
-
-    <script>
-        function ac() {
-            document.getElementById("bilgiKaresi").style.display = "flex";
-        }
-        function kapat() {
-            document.getElementById("bilgiKaresi").style.display = "none";
-        }
-    </script>
-
 </body>
 </html>
